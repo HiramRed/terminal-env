@@ -1,5 +1,1 @@
-# Initialize
-
-```sh
-sh ./configure.sh
-```
+**!!! Remember to back up**

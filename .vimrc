@@ -1,4 +1,5 @@
 let mapleader = "\<space>"
+let loaded_matchparen=1       " do no highlight matched pairs
 
 setl foldmethod=marker
 
@@ -8,65 +9,51 @@ endif
 
 " netrw
 let g:netrw_banner=0	    " diable banner
-" let g:netrw_liststyle=3     " tree view
 
-" macvim
+" vim gui
 let macvim_skip_colorscheme=1
-set guifont=Comic\ Mono:h21
+" set guifont=Comic\ Mono:h21
 set guicursor=n-v-c-sm-i:block-blinkon0,ve:ver25,r-cr-o:hor20
-set guioptions-=b
-set guioptions-=r
-set guioptions-=l
 
-" path
+
 set path=.
 set path+=**
-" set path+=/usr/local/include/**
-" set path+=~/java/**
 set wildignore+=*node_modules/*
 
 
-" 取消括号匹配高亮
-let loaded_matchparen=1
+" main ------------------------------
+set autoindent
+set noexpandtab
+set shiftwidth=4
+set softtabstop=4
 
-" normal setting ------------------------------
-set viminfo='1000,<50,s10,h
-set hls
-set ic
-set listchars=tab:»\ ,trail:-,nbsp:␣
-" ,eol:↵
-set shortmess-=S
-set laststatus=0
-set background=dark
 
+" normal settings ------------------------------
 set nobackup       " no backup files
 set noswapfile     " no swap files
 set nowritebackup  " only in case you don't want a backup file while editing
 set noundofile     " no undo files
 
 
-" aid ---------------------
-
+" aid ------------------------
 set noeb
 set vb
 set vb t_vb=
+set hls
+set ic
+set is
+set hidden
 set nowrap
 set fileformat=unix
-set autoindent
-" set expandtab
-set noexpandtab
-set shiftwidth=4
-set softtabstop=4
-" set tabstop=4
-" set backspace+=indent,eol,start
+set backspace+=indent,eol,start
 set formatoptions=
-set is
-set hidden    " allow to open another file without saving current file
-
-" 其他杂项 ---------------------
-
 set whichwrap+=<,>,h,l
 set autoread<
+set viminfo='1000,<50,s10,h
+set listchars=tab:»\ ,trail:-,nbsp:␣
+set shortmess-=S
+set laststatus=0
+set background=dark
 
 " {{{ language config
 autocmd FileType typescript,javascript,html,vim call s:SetJsIndent()
@@ -90,10 +77,10 @@ endfunction
 function! s:CXXEnvironment()
   execute "setl shiftwidth=2"
   execute "setl softtabstop=2"
-"   execute "setl noautoindent"
+  execute "setl noautoindent"
   execute "setl noexpandtab"
   execute "setl cindent"
-  execute "setl cinkeys='0},0),0],:,0#,!^F,o,O,e'"
+"  execute "setl cinkeys='0},0),0],:,0#,!^F,o,O,e'"
 "   execute "setl path+=**"
 "   execute "setl path+=/usr/local/include/"
 endfunction
@@ -144,10 +131,10 @@ function IsCocEnable()
 endfunction
 " }}}
 
-" {{{ plugin init
+" {{{ plugin settings
 
 " syntax
-let g:syntastic_ignore_files = ['.zsh_history', '.z']
+let g:syntastic_ignore_files = ['.zsh_history', '.bash_history', '.z']
 let g:syntastic_enable_signs = 0
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_loc_list_height = 6
@@ -170,56 +157,20 @@ let g:mkdp_filetypes = ['markdown', 'md']
 " {{{ plugins
 call plug#begin('~/.vim/plugged')
 
-" unite
-" Plug 'shougo/unite.vim'
-
 if !has('nvim')
   " syntax check
   Plug 'scrooloose/syntastic'
 endif
 
 " theme
-" Plug 'junegunn/seoul256.vim'
-" Plug 'dracula/vim'
 Plug 'sickill/vim-monokai'
-" Plug 'chriskempson/tomorrow-theme'
-" Plug 'haishanh/night-owl.vim'
 
-" Plug 'tpope/vim-surround'
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-" Plug 'Yggdroot/LeaderF', { 'do': ':LeaderfInstallCExtension' }
-" Plug 'powerline/powerline'
 
 " session
 Plug 'xolox/vim-session'
 Plug 'xolox/vim-misc'
-
-" 驼峰跳跃
-" Plug 'bkad/camelcasemotion'
-
-" 显示缩进
-" Plug 'Yggdroot/indentLine'
-
-" 注释
-" Plug 'scrooloose/nerdcommenter'
-
-" 快捷方法参数操作
-" Plug 'vim-scripts/argtextobj.vim'
-
-" 自动匹配括号
-" Plug 'jiangmiao/auto-pairs'
-
-"轻量级注释
-" Plug 'tomtom/tcomment_vim'
-
-" f | t 行内高亮
-" Plug 'hrsh7th/vim-eft'
-
-" load json here
-" Plug 'elzr/vim-json'
 
 " nvim
 if has('nvim')
@@ -233,9 +184,6 @@ if has('nvim')
   if (exists('g:coc_enable') && g:coc_enable)
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
   endif
-
-  " Plug 'neoclide/coc.vetur'
-  " Plug 'navarasu/onedark.nvim'
 
   " markdown
   " Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -256,22 +204,14 @@ syntax off
 
 "{{{ maps
 
-" macvim
-nnoremap <M-S-n> :Files<cr>
-
 " motion
 inoremap <C-b> <left>
-" inoremap <C-p> <up>
-" inoremap <C-n> <down>
 inoremap <C-f> <right>
 nnoremap ' `
 
 " command motion
 cno <C-a> <home>
-" cno <C-d> <delete>
 cnoremap <C-A> <Home>
-" cnoremap <C-F> <Right>
-" cnoremap <C-B> <Left>
 cnoremap <Esc>b <S-Left>
 cnoremap <Esc>f <S-Right>
 
@@ -279,17 +219,9 @@ cnoremap <Esc>f <S-Right>
 inoremap <C-e> <end>
 inoremap <C-a> <home>
 inoremap <C-d> <Delete>
-nnoremap vm $vaBV
 nnoremap <silent> <F10> :call CompilCode()<cr>
 inoremap <C-r>% <C-r>=expand("%:p")<cr>
 tnoremap <C-q> <C-\><C-n>
-inoremap <Esc>b <S-Left>
-inoremap <Esc>f <S-Right>
-
-" Leaderf
-" nnoremap <silent> <C-N> :LeaderfFile<cr>
-" nnoremap <leader>f :LeaderfLine<cr>
-" nnoremap <leader>b :LeaderfBuffer<cr>
 
 " fzf
 nnoremap <silent> <leader>F :Rg<cr>
@@ -297,9 +229,4 @@ nnoremap <silent> <expr> <C-n> (len(system('git rev-parse')) ? ':Files' : ':GFil
 nnoremap <silent> <leader>f :Lines<cr>
 nnoremap <silent> <leader>b :Buffers<cr>
 
-" nerdcommenter
-nmap <leader>cc <plug>NERDCommenterToggle
-vmap <leader>cc <plug>NERDCommenterToggle
-nmap <leader>cu <plug>NERDCommenterUncomment
-vmap <leader>cu <plug>NERDCommenterUncomment
 "}}} maps
