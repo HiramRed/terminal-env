@@ -1,5 +1,5 @@
 let mapleader = "\<space>"
-let loaded_matchparen=1       " do no highlight matched pairs
+" let loaded_matchparen=1       " do no highlight matched pairs
 
 setl foldmethod=marker
 
@@ -43,6 +43,7 @@ set hls
 set ic
 set is
 set hidden
+" set showcmd
 set nowrap
 set fileformat=unix
 set backspace+=indent,eol,start
@@ -200,7 +201,7 @@ call plug#end()
 " colo monokai
 hi PmenuSel ctermfg=white
 
-syntax off
+" syntax off
 
 "{{{ maps
 
